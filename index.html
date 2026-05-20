@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOVING - Private Dating App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1 class="title">LOVING ❤️</h1>
+            <p class="subtitle">Pour max 10 personnes</p>
+        </div>
+
+        <!-- FORM SECTION -->
+        <div id="formContainer" class="form-section">
+            <form id="profileForm" class="profile-form">
+                <h2 style="font-size: 18px; margin-bottom: 12px;">Crée ton profil</h2>
+
+                <!-- First Name -->
+                <div class="form-group">
+                    <label for="firstName">Prénom</label>
+                    <input 
+                        type="text" 
+                        id="firstName" 
+                        placeholder="Ex: Alexandre"
+                        maxlength="30"
+                    />
+                </div>
+
+                <!-- Age -->
+                <div class="form-group">
+                    <label for="age">Âge</label>
+                    <input 
+                        type="number" 
+                        id="age" 
+                        placeholder="25"
+                        min="18"
+                        max="120"
+                    />
+                </div>
+
+                <!-- Photo URL -->
+                <div class="form-group">
+                    <label for="photoUrl">Lien photo</label>
+                    <input 
+                        type="url" 
+                        id="photoUrl" 
+                        placeholder="https://example.com/photo.jpg"
+                    />
+                </div>
+
+                <!-- Bio -->
+                <div class="form-group">
+                    <label for="bio">
+                        <span>Bio</span>
+                        <span class="char-counter"><span id="charCount">0</span>/150</span>
+                    </label>
+                    <textarea 
+                        id="bio" 
+                        placeholder="Parle un peu de toi... passion, humour, vibe..."
+                        maxlength="150"
+                    ></textarea>
+                </div>
+
+                <!-- WhatsApp -->
+                <div class="form-group">
+                    <label for="whatsapp">Numéro WhatsApp</label>
+                    <input 
+                        type="tel" 
+                        id="whatsapp" 
+                        placeholder="06 12 34 56 78 ou +33 6 12 34 56 78"
+                    />
+                </div>
+
+                <!-- Error Message -->
+                <div id="errorMessage" class="error-message"></div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-primary">Ajouter mon profil</button>
+            </form>
+        </div>
+
+        <!-- LIMIT MESSAGE -->
+        <div id="limitMessage" class="limit-message">
+            ✅ Maximum 10 personnes atteint!
+        </div>
+
+        <!-- PROFILES DISPLAY -->
+        <div id="profilesContainer" class="profiles-container"></div>
+
+        <!-- ADD ANOTHER BUTTON -->
+        <button id="addAnotherBtn" class="btn-add-another" style="display: none;">
+            + Ajouter un autre profil
+        </button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

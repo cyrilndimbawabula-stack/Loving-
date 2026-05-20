@@ -151,7 +151,7 @@ function displayProfiles() {
     profilesContainer.innerHTML = '';
     
     if (profiles.length === 0) {
-        profilesContainer.innerHTML = '<p style="text-align: center; color: #777; margin-top: 24px;">Aucun profil pour le moment. Sois la première! 💕</p>';
+        profilesContainer.innerHTML = '<p style="text-align: center; color: #d65d94; margin-top: 24px;">Aucun profil pour le moment. Sois la première! 💕</p>';
         formContainer.style.display = 'block';
         limitMessage.classList.remove('show');
         addAnotherBtn.style.display = 'none';
@@ -183,11 +183,14 @@ function createProfileCard(profile) {
     const whatsappLink = getWhatsAppLink(profile.whatsapp);
     
     card.innerHTML = `
-        <img src="${profile.photoUrl}" alt="${profile.firstName}" class="profile-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%231e1e1e%22 width=%22100%22 height=%22100%22/%3E%3C/svg%3E'">
+        <img src="${profile.photoUrl}" alt="${profile.firstName}" class="profile-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2214%22 fill=%22%23999%22%3EPhoto%3C/text%3E%3C/svg%3E'">
         <div class="profile-content">
             <div class="profile-header">
-                <span class="profile-name">${escapeHtml(profile.firstName)}</span>
-                <span class="profile-age">${profile.age}</span>
+                <div class="profile-header-info">
+                    <span class="profile-name">${escapeHtml(profile.firstName)}</span>
+                    <span class="profile-age">${profile.age}</span>
+                </div>
+                <button class="btn-delete" onclick="deleteProfile(${profile.id})">Supprimer</button>
             </div>
             <p class="profile-bio">${escapeHtml(profile.bio)}</p>
             <a href="${whatsappLink}" target="_blank" rel="noopener noreferrer" class="profile-whatsapp">
@@ -197,6 +200,15 @@ function createProfileCard(profile) {
     `;
     
     return card;
+}
+
+// Delete Profile
+function deleteProfile(profileId) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce profil?')) {
+        profiles = profiles.filter(p => p.id !== profileId);
+        saveProfiles();
+        displayProfiles();
+    }
 }
 
 // Escape HTML

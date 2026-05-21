@@ -310,8 +310,16 @@ body {
 }
 
 .profile-age {
-    font-size: 16px;
+    font-size: 14px;
     color: #999;
+    font-weight: 500;
+}
+
+.profile-flag {
+    font-size: 22px;
+    font-weight: 500;
+    color: #333;
+    text-align: center;
 }
 
 .profile-bio {
@@ -425,6 +433,10 @@ body {
 
     .profile-name {
         font-size: 16px;
+    }
+
+    .profile-flag {
+        font-size: 20px;
     }
 }
 

@@ -459,4 +459,18 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 45, 117, 0.7);
+}/* WhatsApp Contact */
+.whatsapp-contact {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.chat-text {
+  display: block;
+  font-size: 13px;
+  color: #888;
+  font-style: italic;
+  margin-top: 3px;
 }

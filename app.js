@@ -196,7 +196,9 @@ function createProfileCard(profile) {
             <p class="profile-bio">${escapeHtml(profile.bio)}</p>
             <a href="${whatsappLink}" target="_blank" rel="noopener noreferrer" class="profile-whatsapp">
                 💬 ${profile.whatsapp}
-            </a>
+            </a>            
+  <span class="chat-text">cliquez pour discuter</span>
+</div>
         </div>
     `;
     

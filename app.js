@@ -1,6 +1,7 @@
 // Configuration
 const MAX_PROFILES = 10;
 const STORAGE_KEY = 'lovingProfiles';
+const DELETE_PASSWORD = '200611'; // Mot de passe pour suppression
 
 // State
 let profiles = [];
@@ -183,14 +184,14 @@ function createProfileCard(profile) {
     const whatsappLink = getWhatsAppLink(profile.whatsapp);
     
     card.innerHTML = `
-        <img src="${profile.photoUrl}" alt="${profile.firstName}" class="profile-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2214%22 fill=%22%23999%22%3EPhoto%3C/text%3E%3C/svg%3E'">
+        <img src="${profile.photoUrl}" alt="${profile.firstName}" class="profile-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%23f0f0f0 width=%22100%22 height=%22100%22/%3E%3C/svg%3E'"/>
         <div class="profile-content">
             <div class="profile-header">
                 <div class="profile-header-info">
                     <span class="profile-name">${escapeHtml(profile.firstName)}</span>
                     <span class="profile-age">${profile.age}</span>
                 </div>
-                <button class="btn-delete" onclick="deleteProfile(${profile.id})">Supprimer</button>
+                <button class="btn-delete" onclick="deleteProfileWithPassword(${profile.id})">Supprimer</button>
             </div>
             <p class="profile-bio">${escapeHtml(profile.bio)}</p>
             <a href="${whatsappLink}" target="_blank" rel="noopener noreferrer" class="profile-whatsapp">
@@ -202,12 +203,27 @@ function createProfileCard(profile) {
     return card;
 }
 
-// Delete Profile
-function deleteProfile(profileId) {
+// Delete Profile with Password Protection
+function deleteProfileWithPassword(profileId) {
+    const password = prompt('🔐 Entrez le mot de passe pour supprimer ce profil:');
+    
+    // If user cancelled the prompt
+    if (password === null) {
+        return;
+    }
+    
+    // Check password
+    if (password !== DELETE_PASSWORD) {
+        alert('❌ Mot de passe incorrect!');
+        return;
+    }
+    
+    // Password correct, proceed with deletion
     if (confirm('Êtes-vous sûr de vouloir supprimer ce profil?')) {
         profiles = profiles.filter(p => p.id !== profileId);
         saveProfiles();
         displayProfiles();
+        alert('✅ Profil supprimé avec succès!');
     }
 }
 

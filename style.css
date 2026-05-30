@@ -1,37 +1,62 @@
-    .profile-name {
-        font-size: 16px;
-    }
+/* ======================
+   PROFIL 2D
+   ====================== */
 
-    .profile-flag {
-        font-size: 20px;
-    }
+.profile-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.profile-flag {
+  font-size: 22px;
+  transition: 0.2s;
+}
+
+.profile-flag:hover {
+  transform: scale(1.1);
 }
 
 /* ======================
-   SCROLLBAR STYLING
+   SCROLLBAR 2D
    ====================== */
 
 ::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(255, 192, 217, 0.3);
+  background: rgba(255, 192, 217, 0.3);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 45, 117, 0.5);
-    border-radius: 4px;
+  background: rgba(255, 45, 117, 0.6);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 45, 117, 0.7);
-}/* WhatsApp Contact */
+  background: rgba(255, 45, 117, 0.8);
+}
+
+/* ======================
+   WHATSAPP CONTACT 2D
+   ====================== */
+
 .whatsapp-contact {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-top: 6px;
+  padding: 6px 10px;
+  background: rgba(37, 211, 102, 0.1);
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.whatsapp-contact:hover {
+  background: rgba(37, 211, 102, 0.2);
 }
 
 .chat-text {
@@ -40,4 +65,32 @@
   color: #888;
   font-style: italic;
   margin-top: 3px;
+}
+
+/* ======================
+   CARTE PROFIL 2D
+   ====================== */
+
+.profile-card {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 15px 0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+.profile-card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  transform: translateY(-3px);
+}
+
+.profile-photo {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.8);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  object-fit: cover;
 }

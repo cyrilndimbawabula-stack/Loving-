@@ -104,3 +104,19 @@ h1 {
 .whatsapp-link:hover {
   text-decoration: underline;
 }
+
+.header-video {
+  margin-top: 20px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.header-video video {
+  width: 100%;
+  height: auto;
+  display: block;
+}

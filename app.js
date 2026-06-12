@@ -3,6 +3,8 @@ const MAX_PROFILES = 100;
 const STORAGE_KEY = 'lovingProfiles';
 const DELETE_PASSWORD = '200611'; // Mot de passe pour suppression
 
+const SUPABASE_URL = 'https://doovevgkmarozjululkr.supabase.co'
+const SUPABASE_KEY = 'sb_publishable_4GnPe_yN856H6ruK8FzGg_N17u7Tbo' // ta clé publishable
 // State
 let profiles = [];
 
@@ -36,48 +38,40 @@ function updateCharCount() {
 }
 
 // Handle Form Submit
-function handleFormSubmit(e) {
-    e.preventDefault();
-    
-    // Clear previous error
-    errorMessage.textContent = '';
-    
-    // Validate
-    if (!validateForm()) {
-        return;
-    }
-    
-    // Check limit
-    if (profiles.length >= MAX_PROFILES) {
-        errorMessage.textContent = `❌ Maximum ${MAX_PROFILES} personnes atteint`;
-        return;
-    }
-    
-    // Create profile
-    const profile = {
-        id: Date.now(),
-        firstName: document.getElementById('firstName').value.trim(),
-        age: parseInt(document.getElementById('age').value),
-        photoUrl: document.getElementById('photoUrl').value.trim(),
-        bio: document.getElementById('bio').value.trim(),
-        whatsapp: document.getElementById('whatsapp').value.trim(),
-    };
-    
-    // Normalize WhatsApp number
-    profile.whatsapp = normalizeWhatsApp(profile.whatsapp);
-    
-    // Add to profiles
-    profiles.push(profile);
-    
-    // Save to localStorage
-    saveProfiles();
-    
-    // Reset form
-    profileForm.reset();
-    charCount.textContent = '0';
-    
-    // Update UI
-    displayProfiles();
+async function handleFormSubmit(e) {
+  e.preventDefault()
+  errorMessage.textContent = ''
+  
+  if (!validateForm()) return
+  if (profiles.length >= MAX_PROFILES) {
+    errorMessage.textContent = '❌ Maximum ' + MAX_PROFILES + ' personnes'
+    return
+  }
+
+  const newProfile = {
+    firstName: document.getElementById('firstName').value.trim(),
+    age: parseInt(document.getElementById('age').value),
+    photoUrl: document.getElementById('photoUrl').value.trim(),
+    bio: document.getElementById('bio').value.trim(),
+    whatsapp: normalizeWhatsApp(document.getElementById('whatsapp').value.trim())
+  }
+
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/profiles`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newProfile)
+    })
+    profileForm.reset()
+    charCount.textContent = '0'
+    loadProfiles() // recharge depuis Supabase
+  } catch (err) {
+    errorMessage.textContent = 'Erreur: ' + err.message
+  }
 }
 
 // Validate Form
@@ -217,15 +211,6 @@ function deleteProfileWithPassword(profileId) {
         alert('❌ Mot de passe incorrect!');
         return;
     }
-    
-    // Password correct, proceed with deletion
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce profil?')) {
-        profiles = profiles.filter(p => p.id !== profileId);
-        saveProfiles();
-        displayProfiles();
-        alert('✅ Profil supprimé avec succès!');
-    }
-}
 
 // Escape HTML
 function escapeHtml(text) {
@@ -242,30 +227,34 @@ function showForm() {
     formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// Save to localStorage
-function saveProfiles() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(profiles));
+// Load from Supabase
+async function loadProfiles() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/profiles?select=*&order=created_at.desc`, {
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`
+      }
+    })
+    profiles = await res.json()
+    displayProfiles()
+  } catch (err) {
+    errorMessage.textContent = 'Erreur chargement: ' + err.message
+  }
 }
 
-// Load from localStorage
-function loadProfiles() {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-        try {
-            profiles = JSON.parse(stored);
-        } catch (e) {
-            console.error('Error loading profiles:', e);
-            profiles = [];
-        }
+// Password correct, proceed with deletion
+if (confirm('Etes-vous sûr de vouloir supprimer ce profil?')) {
+  await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${profileId}`, {
+    method: 'DELETE',
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`
     }
+  })
+  loadProfiles()
+  alert('✅ Profil supprimé avec succès!');
 }
-
-// Clear all profiles (debug utility)
-function clearAllProfiles() {
-    if (confirm('Supprimer tous les profils?')) {
-        profiles = [];
-        saveProfiles();
-        displayProfiles();
     }
 }
 
